@@ -1,0 +1,61 @@
+import React from 'react';
+import './Watch.css';
+function App(){
+ let timerDisplay =document.querySelector('.timerDisplay');
+ let stopBtn = document.getElementById('stopBtn');
+ let startBtn = document.getElementById('startBtn');
+ let resetBtn = document.getElementById('resetBtn');
+ 
+ let msec = 0o0;
+ let sec = 0o0;
+ let mins = 0o0;
+
+ let timerId =null;
+ startBtn.addEventListener('click', function(){
+  if(timerId !== null){
+    clearInterval(timerId);
+  }
+  timerId = setInterval(startTimer, 10);
+ });
+ stopBtn.addEventListener('click', function(){
+  clearInterval(timerId);
+ });
+ resetBtn.addEventListener('click', function(){
+  clearInterval(timerId);
+  timerDisplay.innerHTML = `00:00:00`;
+  msec=sec=mins=0o0;
+ });
+
+ function startTimer(){
+  msec++;
+  if(msec == 100){
+    msec=0;
+    sec++;
+    if(sec == 60){
+      sec = 0;
+      mins++;
+    }
+  }
+  let msec= msec < 10 ? `0${msec}` : sec;
+  let ssec= sec < 10 ? `0${sec}` : sec;
+  let minsc= mins < 10 ? `0${mins}` : mins;
+
+  timerDisplay.innerHTML=`${msec}: ${ssec}: ${minsc}`;
+ }
+
+  return(
+    <>
+      <div className="stopWatch">
+        <div className="timerDisplay">00:00:00</div>
+      </div>
+      <div className="buttons">
+        <button id="stopBtn" class="btn" style={{backgroundColor: 'red'}}>Stop</button>
+        <button id="startBtn" class="btn" style={{backgroundColor: 'green'}}>Start</button>
+        <button id="resetBtn" class="btn" style={{backgroundColor: 'blue'}}>Reset</button>
+      </div>
+    </>
+    
+  );
+}
+export default App;
+
